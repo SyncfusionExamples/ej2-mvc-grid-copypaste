@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+  @(Html.EJS().Grid("grid")
+        .DataSource((List<EJ2_MVC_Grid_Copy_Paste.Controllers.Orders>)ViewBag.dataSource)
+        .Columns(col =>
+        {
+            col.Field("OrderID").HeaderText("Order ID").TextAlign(Syncfusion.EJ2.Grids.TextAlign.Right).Width("120").Add();
+            col.Field("CustomerName").HeaderText("Customer Name").Width("150").Add();
+            col.Field("ShipCountry").HeaderText("Ship Country").Width("130").Add();
+        })
+        .Render())
+<script>
+    function tsvJSON(tsv) {
+
+        var lines = tsv.trim().split("\n");
+
+        var result = [];
+
+        var headers = lines[0].split("\t");
+
+        for (var i = 1; i < lines.length; i++) {
+
+            var obj = {};
+            var currentline = lines[i].split("\t");
+
+            for (var j = 0; j < headers.length; j++) {
+                obj[headers[j].trim()] = currentline[j];
+            }
+
+            result.push(obj);
+
+        }
+
+        return result; //JSON
+    }
+
+    document.getElementById('grid').addEventListener(ej.base.Browser.isIE ? 'keydown' : 'paste', function (e) {
+        var tsv;
+        if (e.ctrlKey && (e.keyCode == 86)) {
+            tsv = window.clipboardData.getData('Text');
+        } else {
+            tsv = e.clipboardData.getData('Text')
+        }
+        if (tsv) {
+            var ajax = new ej.base.Ajax("@Url.Action("OnPaste")");
+            ajax.type = "POST";
+            ajax.send(JSON.stringify({ pastedData: tsvJSON(tsv) }))
+                .then(function (data) {
+                    var grid = document.getElementById('grid').ej2_instances[0];
+                    grid.dataSource = JSON.parse(data);
+                });
+        }
+    });
+
+
+</script>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+            enables a clean separation of concerns and gives you full control over markup
+            for enjoyable, agile development.
+        </p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Get more libraries</h2>
+        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Web Hosting</h2>
+        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>
+</div>
