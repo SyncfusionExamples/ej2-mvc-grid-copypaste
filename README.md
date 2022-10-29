@@ -1,5 +1,7 @@
 # Copying and Pasting Excel Sheet Data to EJ2 Grid ASP.NET MVC
 
+This sample explains about how to perform copy and paste actions in ASP.NET MVC DataGrid.
+
 Cross browser way to copy paste Excel sheet data to ASP.NET MVC Grid.
 
 Register `paste` event for the grid element and handle the process the pasted data.
@@ -38,3 +40,14 @@ public ActionResult OnPaste(PostData data, string action)
     return Json(OrdersList);
 }
 ```
+
+## Prerequisites
+
+* Visual Studio 2022
+
+## How to run the project
+
+* Checkout this project to a location in your disk.
+* Open the solution file using the Visual Studio 2022.
+* Restore the NuGet packages by rebuilding the solution.
+* Run the project.
