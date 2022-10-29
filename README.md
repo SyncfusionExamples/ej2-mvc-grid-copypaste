@@ -51,3 +51,5 @@ public ActionResult OnPaste(PostData data, string action)
 * Open the solution file using the Visual Studio 2022.
 * Restore the NuGet packages by rebuilding the solution.
 * Run the project.
+* Placed excel file in project location. Copy the rows and paste it within a Grid. 
+
